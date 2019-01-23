@@ -12,7 +12,7 @@ import random
 import os.path
 
 team_name = 'Greg Holstens Team' # Only 10 chars displayed.
-strategy_name = 'colludes 5 times and then betray the rest'
+strategy_name = 'Trust gaining Backstabber'
 strategy_description = 'colludes 5 times and then betray the rest'
     
 def move(my_history, their_history, my_score, their_score):
