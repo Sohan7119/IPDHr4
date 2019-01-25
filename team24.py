@@ -6,10 +6,12 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
-strategy_name = 'The name the team gives to this strategy'
-strategy_description = 'How does this strategy decide?'
-    
+team_name = 'Jonathan Winkleys Team' # Only 10 chars displayed.
+strategy_name = 'Weighted Betray'
+strategy_description = 'Start with colluding. After that turn their history into a percent to determine if choosing c or b'
+
+import random
+
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
     my_score, their_score are ints.
@@ -17,22 +19,31 @@ def move(my_history, their_history, my_score, their_score):
     Make my move.
     Returns 'c' or 'b'. 
     '''
-
-    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
-    # their_history: a string of the same length as history, possibly empty. 
-    # The first round between these two players is my_history[0] and their_history[0].
-    # The most recent round is my_history[-1] and their_history[-1].
-    
-    # Analyze my_history and their_history and/or my_score and their_score.
-    # Decide whether to return 'c' or 'b'.
-    
-    return 'c'
-
+    if len(my_history) == 0:
+        return 'c' #if first turn collude
+    else:
+        #set default values
+        weight = 0 
+        betrays = 0
+        their_length = 0
+        for round in range(len(their_history)):
+            if their_history[round] == 'b':
+                betrays += 1 #add to variable if for each time they have betrayed if ever
+            their_length += 1 #keeps track of how long their_history is
+        weight = int((betrays/their_length)*100) #calculates weight as an int
+        if their_length <= 10:
+            weight -= 50 #if first ten turns subtract 50 from weight
+        if weight < 0:
+            weight = 0 #makes sure weight is not below 0
+        if weight >= random.randint(1, 100): #decides wether to betray or collude
+            return 'b'
+        else:
+            return 'c'
     
 def test_move(my_history, their_history, my_score, their_score, result):
     '''calls move(my_history, their_history, my_score, their_score)
     from this module. Prints error if return value != result.
-    Returns True or False, dpending on whether result was as expected.
+    Returns True or False, depending on whether result was as expected.
     '''
     real_result = move(my_history, their_history, my_score, their_score)
     if real_result == result:
@@ -53,7 +64,7 @@ if __name__ == '__main__':
               my_score=0,
               their_score=0,
               result='b'):
-         print('Test passed')
+         print ('Test passed')
      # Test 2: Continue betraying if they collude despite being betrayed.
     test_move(my_history='bbb',
               their_history='ccc', 
