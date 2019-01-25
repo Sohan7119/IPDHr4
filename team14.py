@@ -6,9 +6,9 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
-strategy_name = 'The name the team gives to this strategy'
-strategy_description = 'How does this strategy decide?'
+team_name = 'Michelle Tas Team' # Only 10 chars displayed.
+strategy_name = 'michelles_strategy'
+strategy_description = 'Collude until first betrayal. Then, if number of opponents betrayals greater than colludes, betray; if number of opponents colludes greater than betrayals, collude'
     
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
@@ -26,7 +26,27 @@ def move(my_history, their_history, my_score, their_score):
     # Analyze my_history and their_history and/or my_score and their_score.
     # Decide whether to return 'c' or 'b'.
     
+    if len(my_history)==0: # It's the first round; collude.
+        return 'c'
+    elif my_history[-1]=='c' and their_history[-1]=='b':
+        return 'b' # Betray if they were severely punished last time,
+    else:
+        return 'c' # otherwise collude.
     return 'c'
+    
+    b = 0
+    c = 0 
+   
+    for i in their_history:
+        if i == 'b':
+            b+=1
+        else:
+            c += 1
+    if b > c:
+        return 'b'
+    else:
+        return 'c'
+    
 
     
 def test_move(my_history, their_history, my_score, their_score, result):
@@ -65,4 +85,4 @@ if __name__ == '__main__':
               # move('bbb', 'ccc', 0, 0) returns 'b'.
               my_score=0, 
               their_score=0,
-              result='b')             
+              result='b')            
