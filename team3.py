@@ -7,7 +7,7 @@
 ####
 
 team_name = 'Sohan Jerripothulas Team2' # Only 10 chars displayed.
-strategy_name = 'Betray'
+strategy_name = 'Betray if they betrayed recently'
 strategy_description = 'Betray every team despite the the opponents colluding'
  
     
